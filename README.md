@@ -2,11 +2,11 @@
 
 ### Sprendžiamo uždavinio aprašymas:
 
-**Projekto tikslas** – sukurti galerijos valdymo sistemą, leidžiančią naudotojams saugoti, tvarkyti ir dalintis vaizdus.
+**Projekto tikslas** – sukurti galerijos valdymo sistemą, leidžiančią naudotojams saugoti, tvarkyti, dalintis vaizdus ir komentuoti.
 
 ### Sistemos paskirtis:
 
-**Sistemos paskirtis** – suteikti intuityvią ir patogią sąsają vartotojams, norintiems valdyti vaizdus. Naudotojai galės įkelti vaizdus, juos kategorijuoti, priskirti žymes, taip pat peržiūrėti, dalintis kitų naudotojų vaizdus.
+**Sistemos paskirtis** – suteikti intuityvią ir patogią sąsają vartotojams, norintiems valdyti vaizdus. Naudotojai galės įkelti vaizdus, juos kategorijuoti, priskirti žymes, taip pat peržiūrėti, dalintis kitų naudotojų vaizdus ir komentuoti.
 
 ### Funkciniai reikalavimai:
 
@@ -15,6 +15,7 @@
 - **Kategorijų ir žymių valdymas:** galimybė priskirti vaizdus kategorijoms ir žymėms.
 - **Paieškos funkcionalumas:** paieška pagal pavadinimą, aprašymą, žymes ar kategorijas.
 - **Dalijimosi funkcionalumas:** galimybė dalintis vaizdais su kitais vartotojais ar socialiniais tinklais.
+- **Komentavimo sistema:** galimybė komentuoti ir vertinti kitų naudotojų vaizdus.
 
 
 ### Pasirinktų technologijų aprašymas:
