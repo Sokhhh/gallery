@@ -5,18 +5,28 @@ const pool = require('../db');
 // Create a new gallery
 router.post('/', async (req, res) => {
     const { name, description } = req.body;
+
+    // Validation checks
+    if (!name || typeof name !== 'string' || name.length > 255) {
+        return res.status(422).json({ error: 'Invalid name: must be a string and less than 255 characters.' });
+    }
+
+    if (!description || typeof description !== 'string') {
+        return res.status(422).json({ error: 'Invalid description: must be a non-empty string.' });
+    }
+
     try {
         const result = await pool.query(
             'INSERT INTO gallery (name, description) VALUES ($1, $2) RETURNING *',
             [name, description]
         );
-        res.json(result.rows[0]);
+
+        res.status(201).json(result.rows[0]); // Respond with 201 Created
     } catch (error) {
         console.error('Error creating gallery:', error);
         res.status(500).json({ error: 'Internal server error' });
     }
 });
-
 // Get all galleries
 router.get('/', async (req, res) => {
     try {

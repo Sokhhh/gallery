@@ -6,12 +6,22 @@ const pool = require('../db');
 router.post('/:galleryId/images/:imageId/comments', async (req, res) => {
     const { imageId } = req.params;
     const { content, author } = req.body;
+
+    // Validation checks
+    if (!content || typeof content !== 'string') {
+        return res.status(422).json({ error: 'Invalid content: must be a non-empty string.' });
+    }
+
+    if (!author || typeof author !== 'string' || author.length > 255) {
+        return res.status(422).json({ error: 'Invalid author: must be a string and less than 255 characters.' });
+    }
+
     try {
         const result = await pool.query(
             'INSERT INTO comments (image_id, content, author) VALUES ($1, $2, $3) RETURNING *',
             [imageId, content, author]
         );
-        res.json(result.rows[0]);
+        res.status(201).json(result.rows[0]); // Respond with 201 Created
     } catch (error) {
         console.error('Error creating comment:', error);
         res.status(500).json({ error: 'Internal server error' });

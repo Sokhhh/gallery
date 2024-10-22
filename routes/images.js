@@ -6,12 +6,22 @@ const pool = require('../db');
 router.post('/:galleryId/images/', async (req, res) => {
     const { galleryId } = req.params;
     const { url, title } = req.body;
+
+    // Validation checks
+    if (!url || typeof url !== 'string') {
+        return res.status(422).json({ error: 'Invalid URL: must be a non-empty string.' });
+    }
+
+    if (!title || typeof title !== 'string' || title.length > 255) {
+        return res.status(422).json({ error: 'Invalid title: must be a string and less than 255 characters.' });
+    }
+
     try {
         const result = await pool.query(
             'INSERT INTO image (gallery_id, url, title) VALUES ($1, $2, $3) RETURNING *',
             [galleryId, url, title]
         );
-        res.json(result.rows[0]);
+        res.status(201).json(result.rows[0]); // Respond with 201 Created
     } catch (error) {
         console.error('Error creating image:', error);
         res.status(500).json({ error: 'Internal server error' });
