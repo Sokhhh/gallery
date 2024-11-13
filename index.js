@@ -5,11 +5,14 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const pool = require('./db');
 
+require('dotenv').config();
+const authenticateJWT = require('./middleware/authenticate');
+const authorizeRole = require('./middleware/authorize');
+
 const galleriesRoutes = require('./routes/galleries');
 const imagesRoutes = require('./routes/images');
 const commentsRoutes = require('./routes/comments');
-
-const swaggerGalleries = require('./swagger/swaggerGalleries')
+const authRoutes = require('./routes/auth');
 
 const app = express();
 const PORT = 5000;
@@ -17,28 +20,25 @@ const PORT = 5000;
 // Swagger configuration
 const swaggerOptions = {
     definition: {
-        openapi: '3.0.0', // Specify the OpenAPI version
+        openapi: '3.0.0',
         info: {
-            title: 'Gallery API', // Title of the API
-            version: '1.0.0', // Version of the API
+            title: 'Gallery API',
+            version: '1.0.0',
             description: 'A simple Express API for managing galleries, images, and comments',
         },
         servers: [
             {
-                url: `http://localhost:${PORT}`, // Server URL
+                url: `http://localhost:${PORT}`,
             },
         ],
     },
-    apis: ['./routes/*.js', './swagger/*.js'], // Path to the API docs
+    apis: ['./routes/*.js', './swagger/*.js'],
 };
 
-// Initialize swagger-jsdoc
 const swaggerDocs = swaggerJsdoc(swaggerOptions);
 
-// Serve swagger documentation
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
-// Endpoint to serve the generated OpenAPI JSON
 app.get('/api-docs.json', (req, res) => {
     res.setHeader('Content-Type', 'application/json');
     res.send(swaggerDocs);
@@ -47,21 +47,37 @@ app.get('/api-docs.json', (req, res) => {
 app.use(cors());
 app.use(bodyParser.json());
 
-// Use the routes
-// app.use('/api/galleries', galleriesRoutes);
-// app.use('/api/galleries/:galleryId/images', imagesRoutes);
-// app.use('/api/galleries/:galleryId/images/:imageId/comments', commentsRoutes);
+app.use('/auth', authRoutes); // Add auth routes for register and login
+
+app.use(authenticateJWT); // Global authentication middleware
 
 app.use('/api/galleries/', galleriesRoutes);
 app.use('/api/galleries/', imagesRoutes);
 app.use('/api/galleries/', commentsRoutes);
 
-// Start the server
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
 });
 
-// Function to create tables if they don't exist
+// User table creation for testing registration
+const createUsers = async () => {
+    try {
+        await pool.query(`
+            CREATE TABLE IF NOT EXISTS users (
+                id SERIAL PRIMARY KEY,
+                username VARCHAR(255) UNIQUE NOT NULL,
+                password TEXT NOT NULL,
+                role VARCHAR(50) DEFAULT 'user'
+            );
+        `);
+
+        console.log('Users table created successfully');
+    } catch (error) {
+        console.error('Error creating users table:', error);
+    }
+};
+
+// Create other tables as needed
 const createTables = async () => {
     try {
         await pool.query(`
@@ -96,4 +112,6 @@ const createTables = async () => {
     }
 };
 
-//createTables();
+// Uncomment these functions during initial setup
+// createUsers();
+// createTables();

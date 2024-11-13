@@ -1,9 +1,10 @@
 const express = require('express');
 const router = express.Router();
+const authorizeRole = require('../middleware/authorize');
 const pool = require('../db');
 
 // Create a new image in a specific gallery
-router.post('/:galleryId/images/', async (req, res) => {
+router.post('/:galleryId/images/', authorizeRole('admin'), async (req, res) => {
     const { galleryId } = req.params;
     const { url, title } = req.body;
 
@@ -57,7 +58,7 @@ router.get('/:galleryId/images/:imageId', async (req, res) => {
 });
 
 // Update a specific image
-router.put('/:galleryId/images/:imageId', async (req, res) => {
+router.put('/:galleryId/images/:imageId', authorizeRole('admin'), async (req, res) => {
     const { imageId } = req.params;
     const { url, title } = req.body;
     try {
@@ -76,7 +77,7 @@ router.put('/:galleryId/images/:imageId', async (req, res) => {
 });
 
 // Delete a specific image
-router.delete('/:galleryId/images/:imageId', async (req, res) => {
+router.delete('/:galleryId/images/:imageId', authorizeRole('admin'), async (req, res) => {
     const { imageId } = req.params;
     try {
         const result = await pool.query('DELETE FROM image WHERE id = $1 RETURNING *', [imageId]);

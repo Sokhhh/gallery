@@ -1,9 +1,10 @@
 const express = require('express');
 const router = express.Router();
+const authorizeRole = require('../middleware/authorize');
 const pool = require('../db');
 
 // Create a new comment for a specific image within a specific gallery
-router.post('/:galleryId/images/:imageId/comments', async (req, res) => {
+router.post('/:galleryId/images/:imageId/comments', authorizeRole('admin'), async (req, res) => {
     const { imageId } = req.params;
     const { content, author } = req.body;
 
@@ -56,7 +57,7 @@ router.get('/:galleryId/images/:imageId/comments/:commentId', async (req, res) =
 });
 
 // Update a specific comment
-router.put('/:galleryId/images/:imageId/comments/:commentId', async (req, res) => {
+router.put('/:galleryId/images/:imageId/comments/:commentId', authorizeRole('admin'), async (req, res) => {
     const { commentId } = req.params;
     const { content, author } = req.body;
     try {
@@ -75,7 +76,7 @@ router.put('/:galleryId/images/:imageId/comments/:commentId', async (req, res) =
 });
 
 // Delete a specific comment
-router.delete('/:galleryId/images/:imageId/comments/:commentId', async (req, res) => {
+router.delete('/:galleryId/images/:imageId/comments/:commentId', authorizeRole('admin'), async (req, res) => {
     const { commentId } = req.params;
     try {
         const result = await pool.query('DELETE FROM comments WHERE id = $1 RETURNING *', [commentId]);
