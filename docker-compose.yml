@@ -1,4 +1,5 @@
 services:
+  # PostgreSQL Service
   postgres:
     image: postgres:latest
     container_name: db
@@ -9,7 +10,24 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - postgres-data:/var/lib/postgresql/data
+      - postgres-data:/var/lib/postgresql/data  # Attach named volume to persist data
+
+  # Node.js Application Service
+  app:
+    build:
+      context: .  # Path to the directory containing Dockerfile
+      dockerfile: Dockerfile  # Specify Dockerfile if not named 'Dockerfile'
+    container_name: app
+    environment:
+      - JWT_SECRET=your_jwt_secret_key
+      - JWT_EXPIRATION=1h
+      - DATABASE_URL=postgres://user:password@postgres:5432/db  # Connection string to connect to PostgreSQL
+    ports:
+      - "5000:5000"  # Map host port to container port
+    depends_on:
+      - postgres  # Ensures PostgreSQL starts before app
+    volumes:
+      - .:/app  # Mount your code into the container for development
 
 volumes:
-  postgres-data:
+  postgres-data:  # Define the named volume
