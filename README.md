@@ -1,13 +1,13 @@
 # Galerija
 
-## setup
+## Setup
 
 To setup and run use:
 ```bash
 docker-compose up --build
 ```
 
-### Sprendžiamo uždavinio aprašymas:
+## Sprendžiamo uždavinio aprašymas:
 
 **Projekto tikslas** – sukurti galerijos valdymo sistemą, leidžiančią naudotojams saugoti, tvarkyti, dalintis vaizdus ir komentuoti.
 
