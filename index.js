@@ -5,7 +5,6 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const pool = require('./db');
 
-require('dotenv').config();
 const authenticateJWT = require('./middleware/authenticate');
 const authorizeRole = require('./middleware/authorize');
 

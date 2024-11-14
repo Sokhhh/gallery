@@ -21,7 +21,7 @@ services:
     environment:
       - JWT_SECRET=your_jwt_secret_key
       - JWT_EXPIRATION=1h
-      - DATABASE_URL=postgres://user:password@db:5432/db  # Connection string to connect to PostgreSQL
+      - DATABASE_URL=postgres://user:password@postgres:5432/db  # Connection string to connect to PostgreSQL
     ports:
       - "5000:5000"  # Map host port to container port
     depends_on:

@@ -23,10 +23,10 @@
     }
   },
   "variables": {
-    "appContainerName": "gallery-app",
-    "appImage": "skhgallery.azurecr.io/gallery-app:v2",
+    "appContainerName": "app",
+    "appImage": "skhgallery.azurecr.io/gallery-app:v1",
     "dbContainerName": "db",
-    "dbImage": "skhgallery.azurecr.io/postgres:v2"
+    "dbImage": "skhgallery.azurecr.io/postgres:v1"
   },
   "resources": [
     {
@@ -57,7 +57,7 @@
                 },
                 {
                   "name": "DATABASE_URL",
-                  "value": "postgres://user:password@db:5432/db"
+                  "value": "postgres://user:password@postgres:5432/db"
                 }
               ],
               "ports": [
