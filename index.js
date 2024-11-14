@@ -17,6 +17,8 @@ const authRoutes = require('./routes/auth');
 const app = express();
 const PORT = 5000;
 
+console.log("DATABASE_URL: ", process.env.DATABASE_URL);  // Ensure this matches the correct value
+
 // Swagger configuration
 const swaggerOptions = {
     definition: {
@@ -55,11 +57,10 @@ app.use('/api/galleries/', galleriesRoutes);
 app.use('/api/galleries/', imagesRoutes);
 app.use('/api/galleries/', commentsRoutes);
 
-app.listen(PORT, () => {
-    console.log(`Server is running on http://localhost:${PORT}`);
-});
+// app.listen(PORT, () => {
+//     console.log(`Server is running on http://localhost:${PORT}`);
+// });
 
-// User table creation for testing registration
 const createUsers = async () => {
     try {
         await pool.query(`
@@ -70,8 +71,7 @@ const createUsers = async () => {
                 role VARCHAR(50) DEFAULT 'user'
             );
         `);
-
-        console.log('Users table created successfully');
+        console.log('Users table created successfully (if it did not exist)');
     } catch (error) {
         console.error('Error creating users table:', error);
     }
@@ -80,6 +80,7 @@ const createUsers = async () => {
 // Create other tables as needed
 const createTables = async () => {
     try {
+        // Gallery table creation (only if it doesn't exist)
         await pool.query(`
             CREATE TABLE IF NOT EXISTS gallery (
                 id SERIAL PRIMARY KEY,
@@ -88,6 +89,7 @@ const createTables = async () => {
             );
         `);
 
+        // Image table creation (only if it doesn't exist)
         await pool.query(`
             CREATE TABLE IF NOT EXISTS image (
                 id SERIAL PRIMARY KEY,
@@ -97,6 +99,7 @@ const createTables = async () => {
             );
         `);
 
+        // Comments table creation (only if it doesn't exist)
         await pool.query(`
             CREATE TABLE IF NOT EXISTS comments (
                 id SERIAL PRIMARY KEY,
@@ -106,12 +109,13 @@ const createTables = async () => {
             );
         `);
 
-        console.log('Tables created successfully');
+        console.log('Tables created successfully (if they did not exist)');
     } catch (error) {
         console.error('Error creating tables:', error);
     }
 };
 
-// Uncomment these functions during initial setup
-// createUsers();
-// createTables();
+// Call these functions to create the tables
+createUsers();
+createTables();
+
