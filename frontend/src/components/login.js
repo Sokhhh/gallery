@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom'; // Import Link for navigation
+import { Link, useNavigate } from 'react-router-dom'; // Import useNavigate for redirect
 import '../styles/login.css'; // Add this for external CSS styling
 
 const Login = () => {
@@ -7,7 +7,10 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  const [token, setToken] = useState('');
+  const [usernameError, setUsernameError] = useState(false); // Track username error
+  const [passwordError, setPasswordError] = useState(false); // Track password error
+  
+  const navigate = useNavigate(); // Initialize useNavigate
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -21,6 +24,8 @@ const Login = () => {
     try {
       setLoading(true);
       setError('');
+      setUsernameError(false); // Reset username error
+      setPasswordError(false); // Reset password error
 
       const response = await fetch('http://localhost:5000/auth/login', {
         method: 'POST',
@@ -32,12 +37,23 @@ const Login = () => {
 
       const data = await response.json();
 
+      // Check the response status code and handle errors accordingly
       if (response.ok) {
-        // On success, save the JWT token (e.g., in localStorage or state)
-        setToken(data.token);
+        // On success, save the JWT token in localStorage
+        localStorage.setItem('token', data.token); // Save the token in localStorage
         alert('Login Successful');
+        
+        // Redirect to /galleries page after successful login
+        navigate('/galleries'); 
       } else {
-        setError(data.error || 'Login failed');
+        // Handle server-side errors
+        if (response.status === 401) {
+          setPasswordError(true); // Incorrect password
+        } else if (response.status === 404) {
+          setUsernameError(true); // User not found
+        } else {
+          setError(data.error || 'Login failed');
+        }
       }
     } catch (error) {
       console.error('Error during login:', error);
@@ -60,7 +76,7 @@ const Login = () => {
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               required
-              className="form-input"
+              className={`form-input ${usernameError ? 'error-input' : ''}`}
             />
           </div>
 
@@ -72,11 +88,9 @@ const Login = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
-              className="form-input"
+              className={`form-input ${passwordError ? 'error-input' : ''}`}
             />
           </div>
-
-          {error && <p className="error-message">{error}</p>}
 
           <button type="submit" className="login-button" disabled={loading}>
             {loading ? 'Logging in...' : 'Login'}

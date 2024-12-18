@@ -1,0 +1,40 @@
+/* Container for the entire gallery component */
+.gallery-container {
+    width: 400px;
+    height: 275px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* border: 1px solid #ddd; */
+    border-radius: 8px;
+    overflow: hidden;
+    background-color: transparent; /* Light background */
+  }
+  
+  /* Style for the image */
+  .gallery-image {
+    width: 400px;
+    height: 225px;
+    border-radius: 8px;
+    object-fit: cover; /* Ensures the image covers the area without distortion */
+  }
+  
+  /* Style for the text container below the image */
+  .gallery-text {
+    width: 380px;
+    height: 60px;
+    display: flex;
+    justify-content: flex-start;  /* Align text to the left */
+    align-items: center;
+    color: black;
+    font-size: 18px;
+    font-weight: bold;
+    text-align: left;  /* Align text to the left */
+    padding-left: 10px; /* Add padding to ensure text doesn't touch the edge */
+    background-color: transparent; /* Remove background color */
+  }
+  
+  .gallery-text h3 {
+    margin: 0;
+  }
+  

@@ -57,13 +57,13 @@ router.post('/login', async (req, res) => {
         const user = userResult.rows[0];
 
         if (!user) {
-            return res.status(401).json({ error: 'Invalid credentials' });
+            return res.status(404).json({ error: 'Invalid credentials. User does not exist.' });
         }
 
         // Compare password
         const validPassword = await bcrypt.compare(password, user.password);
         if (!validPassword) {
-            return res.status(401).json({ error: 'Invalid credentials' });
+            return res.status(401).json({ error: 'Invalid credentials. Incorrect password' });
         }
 
         // Generate JWT token with necessary payload
