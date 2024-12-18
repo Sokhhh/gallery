@@ -15,7 +15,7 @@ services:
   # Node.js Application Service
   app:
     build:
-      context: .  # Path to the directory containing Dockerfile
+      context: ./backend  # Adjust the path to your 'backend' directory relative to the location of docker-compose.yml
       dockerfile: Dockerfile  # Specify Dockerfile if not named 'Dockerfile'
     container_name: app
     environment:
@@ -27,7 +27,7 @@ services:
     depends_on:
       - postgres  # Ensures PostgreSQL starts before app
     volumes:
-      - .:/app  # Mount your code into the container for development
+      - ./backend:/app  # Mount the 'backend' folder on your local machine to /app in the container
 
 volumes:
   postgres-data:  # Define the named volume
