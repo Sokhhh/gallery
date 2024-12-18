@@ -80,14 +80,17 @@ const createUsers = async () => {
 // Create other tables as needed
 const createTables = async () => {
     try {
+        // Create the 'gallery' table with a 'user_id' column
         await pool.query(`
             CREATE TABLE IF NOT EXISTS gallery (
                 id SERIAL PRIMARY KEY,
                 name VARCHAR(255) NOT NULL,
-                description TEXT
+                description TEXT,
+                user_id INTEGER REFERENCES users(id) ON DELETE SET NULL
             );
         `);
 
+        // Create the 'image' table with a 'user_id' column
         await pool.query(`
             CREATE TABLE IF NOT EXISTS image (
                 id SERIAL PRIMARY KEY,
@@ -97,21 +100,42 @@ const createTables = async () => {
             );
         `);
 
+        // Create the 'comments' table with a 'user_id' column
         await pool.query(`
             CREATE TABLE IF NOT EXISTS comments (
                 id SERIAL PRIMARY KEY,
                 image_id INTEGER REFERENCES image(id) ON DELETE CASCADE,
                 content TEXT NOT NULL,
-                author VARCHAR(255) NOT NULL
+                user_id INTEGER REFERENCES users(id) ON DELETE SET NULL
             );
         `);
 
-        console.log('Tables created successfully');
+        console.log('Tables with user_id created successfully');
     } catch (error) {
         console.error('Error creating tables:', error);
     }
 };
 
-// Uncomment these functions during initial setup
-// createUsers();
-// createTables();
+const clearDatabase = async () => {
+    try {
+        // Drop the tables in reverse order of creation to avoid foreign key conflicts
+        await pool.query(`DROP TABLE IF EXISTS comments CASCADE;`);
+        await pool.query(`DROP TABLE IF EXISTS image CASCADE;`);
+        await pool.query(`DROP TABLE IF EXISTS gallery CASCADE;`);
+        await pool.query(`DROP TABLE IF EXISTS users CASCADE;`);
+
+        console.log('All tables dropped successfully');
+    } catch (error) {
+        console.error('Error clearing database:', error);
+    }
+};
+
+const resetDatabase = async () => {
+    await clearDatabase();  // Drop existing tables
+    await createUsers();    // Recreate the users table
+    await createTables();   // Recreate other tables
+};
+
+// Uncomment the line below to run the reset process
+// resetDatabase();
+

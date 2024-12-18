@@ -1,10 +1,36 @@
 const express = require('express');
 const router = express.Router();
-const authorizeRole = require('../middleware/authorize');
 const pool = require('../db');
 
+// Middleware to check if the user is the gallery owner or an admin
+const checkGalleryOwnershipOrAdmin = async (req, res, next) => {
+    const { galleryId } = req.params;
+    const userId = req.user.id;
+    const userRole = req.user.role;
+
+    try {
+        const gallery = await pool.query('SELECT * FROM gallery WHERE id = $1', [galleryId]);
+        if (gallery.rows.length === 0) {
+            return res.status(404).json({ error: 'Gallery not found' });
+        }
+
+        const galleryOwnerId = gallery.rows[0].user_id;
+
+        // Allow if the user is the owner or an admin
+        if (userId !== galleryOwnerId && userRole !== 'admin') {
+            return res.status(403).json({ error: 'Permission denied' });
+        }
+
+        // Proceed to the next middleware/handler
+        next();
+    } catch (error) {
+        console.error('Error checking gallery ownership:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+};
+
 // Create a new image in a specific gallery
-router.post('/:galleryId/images/', authorizeRole('admin'), async (req, res) => {
+router.post('/:galleryId/images/', checkGalleryOwnershipOrAdmin, async (req, res) => {
     const { galleryId } = req.params;
     const { url, title } = req.body;
 
@@ -29,10 +55,9 @@ router.post('/:galleryId/images/', authorizeRole('admin'), async (req, res) => {
     }
 });
 
-// Get all images for a specific gallery
+// Get all images for a specific gallery (accessible to all users)
 router.get('/:galleryId/images/', async (req, res) => {
-    const { galleryId } = req.params; // Accessing galleryId from the request parameters
-    console.log('Fetching images for galleryId:', galleryId); // Log the galleryId
+    const { galleryId } = req.params;
     try {
         const result = await pool.query('SELECT * FROM image WHERE gallery_id = $1', [galleryId]);
         res.json(result.rows);
@@ -42,7 +67,7 @@ router.get('/:galleryId/images/', async (req, res) => {
     }
 });
 
-// Get a specific image
+// Get a specific image (accessible to all users)
 router.get('/:galleryId/images/:imageId', async (req, res) => {
     const { imageId } = req.params;
     try {
@@ -57,10 +82,11 @@ router.get('/:galleryId/images/:imageId', async (req, res) => {
     }
 });
 
-// Update a specific image
-router.put('/:galleryId/images/:imageId', authorizeRole('admin'), async (req, res) => {
+// Update a specific image (only the gallery owner or admin can update)
+router.put('/:galleryId/images/:imageId', checkGalleryOwnershipOrAdmin, async (req, res) => {
     const { imageId } = req.params;
     const { url, title } = req.body;
+
     try {
         const result = await pool.query(
             'UPDATE image SET url = $1, title = $2 WHERE id = $3 RETURNING *',
@@ -76,9 +102,10 @@ router.put('/:galleryId/images/:imageId', authorizeRole('admin'), async (req, re
     }
 });
 
-// Delete a specific image
-router.delete('/:galleryId/images/:imageId', authorizeRole('admin'), async (req, res) => {
+// Delete a specific image (only the gallery owner or admin can delete)
+router.delete('/:galleryId/images/:imageId', checkGalleryOwnershipOrAdmin, async (req, res) => {
     const { imageId } = req.params;
+
     try {
         const result = await pool.query('DELETE FROM image WHERE id = $1 RETURNING *', [imageId]);
         if (result.rows.length === 0) {
