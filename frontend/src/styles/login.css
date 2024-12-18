@@ -1,0 +1,118 @@
+.login-container {
+    display: flex;
+    justify-content: flex-start; /* Align to the left */
+    align-items: flex-end;       /* Align to the bottom */
+    height: auto;                /* Allow container to shrink based on content */
+    margin: 0;                   /* Reset any margins */
+    padding: 0;                  /* Reset any padding */
+    background-color: #f4f4f9;   /* Light gray background */
+    font-family: "Inter", sans-serif; /* Use Inter font globally */
+    overflow: hidden;            /* Prevent scrolling */
+}
+
+.login-card {
+    background: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+    width: 100%;
+    max-width: 320px; /* Ensure it fits within smaller screens */
+    max-height: 90%;  /* Prevent the card from exceeding the viewport */
+    margin: 10px;     /* Add spacing between the card and edges */
+    text-align: center;
+    box-sizing: border-box; /* Ensure padding is included in dimensions */
+}
+
+.login-title {
+    font-size: 32px; /* Slightly smaller for better fit */
+    margin-bottom: 1rem;
+    margin-top: 0rem;
+    color: #333333;
+    text-align: left; /* Align text to the left */
+    margin-left: 0; /* Optional: Ensure there's no unnecessary left margin */
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.form-group {
+    margin-bottom: 1rem;
+    text-align: left;
+}
+
+label {
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+    color: #555555;
+    display: block;
+}
+
+.form-input {
+    width: 100%;
+    padding: 0.8rem;
+    font-size: 1rem;
+    border: 1px solid #dddddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+/* Error input style for password fields */
+.error-input {
+    border: 2px solid red; /* Red border when passwords don't match */
+  }
+  
+  .error-message {
+    color: red;
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+    text-align: center;
+  }
+  
+
+.login-button {
+    width: 100%;
+    padding: 0.8rem;
+    font-size: 1rem;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.login-button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
+.login-button:hover:not(:disabled) {
+    background-color: #0056b3;
+}
+
+.register-link {
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+    color: #555555;
+    display: block;
+    text-align: center;
+    margin-top: 10px;
+  }
+  
+  .register-link a {
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+    color: #555555;
+    display: block;
+    color: #0066cc; /* Or your desired color */
+    text-decoration: none;
+    font-weight: bold;
+  }
+  
+  .register-link a:hover {
+    text-decoration: underline;
+  }
+  

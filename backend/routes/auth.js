@@ -43,6 +43,9 @@ router.post('/register', async (req, res) => {
 router.post('/login', async (req, res) => {
     const { username, password } = req.body;
 
+    // Print the received data from the frontend (username and password)
+    console.log('Received data:', { username, password });
+
     // Basic validation
     if (!username || !password) {
         return res.status(400).json({ error: 'Username and password are required' });

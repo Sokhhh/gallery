@@ -1,3 +1,5 @@
+version: '3.8'
+
 services:
   # PostgreSQL Service
   postgres:
@@ -12,22 +14,37 @@ services:
     volumes:
       - postgres-data:/var/lib/postgresql/data  # Attach named volume to persist data
 
-  # Node.js Application Service
+  # Node.js Application Service (Backend)
   app:
     build:
-      context: ./backend  # Adjust the path to your 'backend' directory relative to the location of docker-compose.yml
-      dockerfile: Dockerfile  # Specify Dockerfile if not named 'Dockerfile'
+      context: ./backend  # Path to your backend directory
+      dockerfile: Dockerfile  # Specify Dockerfile if it's named 'Dockerfile'
     container_name: app
     environment:
       - JWT_SECRET=your_jwt_secret_key
       - JWT_EXPIRATION=1h
-      - DATABASE_URL=postgres://user:password@postgres:5432/db  # Connection string to connect to PostgreSQL
+      - DATABASE_URL=postgres://user:password@postgres:5432/db  # Connection string to PostgreSQL
     ports:
       - "5000:5000"  # Map host port to container port
     depends_on:
-      - postgres  # Ensures PostgreSQL starts before app
+      - postgres  # Ensures PostgreSQL starts before the app
     volumes:
-      - ./backend:/app  # Mount the 'backend' folder on your local machine to /app in the container
+      - ./backend:/app  # Mount your local 'backend' folder to /app in the container
+
+  # React Frontend Service
+  frontend:
+    build:
+      context: ./frontend  # Path to your frontend directory
+      dockerfile: Dockerfile  # Specify Dockerfile if it's named 'Dockerfile'
+    container_name: frontend
+    environment:
+      - REACT_APP_API_URL=http://app:5000  # Point to backend service, inside the container
+    ports:
+      - "3000:3000"  # Map host port 3000 to container port 3000 for the React app
+    depends_on:
+      - app  # Ensures the app (backend) starts before the frontend
+    volumes:
+      - ./frontend:/app
 
 volumes:
-  postgres-data:  # Define the named volume
+  postgres-data:  # Define the named volume to persist PostgreSQL data

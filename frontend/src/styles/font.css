@@ -1,0 +1,55 @@
+/* Import Google Fonts: Inter */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+/* Global font settings for the entire page */
+body {
+  font-family: "Inter", serif;
+  font-optical-sizing: auto;
+  font-weight: 400; /* Default weight */
+  font-style: normal;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Utility classes for specific Inter weights */
+.inter-light {
+  font-weight: 300;
+}
+
+.inter-regular {
+  font-weight: 400;
+}
+
+.inter-medium {
+  font-weight: 500;
+}
+
+.inter-semibold {
+  font-weight: 600;
+}
+
+.inter-bold {
+  font-weight: 700;
+}
+
+.inter-extrabold {
+  font-weight: 800;
+}
+
+.inter-black {
+  font-weight: 900;
+}
+
+/* Additional styles for customization */
+html {
+  font-size: 16px; /* Default base font size */
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 0;
+}
+
+p {
+  margin: 0 0 1rem;
+}

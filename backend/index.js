@@ -1,11 +1,12 @@
 const express = require('express');
 const swaggerJsdoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express');
-const cors = require('cors');
 const bodyParser = require('body-parser');
+const cors = require('cors');
 const pool = require('./db');
 
 require('dotenv').config();
+
 const authenticateJWT = require('./middleware/authenticate');
 const authorizeRole = require('./middleware/authorize');
 
@@ -16,6 +17,17 @@ const authRoutes = require('./routes/auth');
 
 const app = express();
 const PORT = 5000;
+
+// CORS Configuration
+const corsOptions = {
+    origin: 'http://localhost:3000', // Specify your frontend URL (adjust as needed)
+    methods: 'GET,POST,PUT,DELETE',  // Allowed HTTP methods
+    allowedHeaders: 'Content-Type,Authorization',  // Allowed headers
+    credentials: true, // Enable credentials (e.g., cookies)
+};
+
+// Use the CORS middleware
+app.use(cors(corsOptions));
 
 // Swagger configuration
 const swaggerOptions = {
@@ -44,7 +56,6 @@ app.get('/api-docs.json', (req, res) => {
     res.send(swaggerDocs);
 });
 
-app.use(cors());
 app.use(bodyParser.json());
 
 app.use('/auth', authRoutes); // Add auth routes for register and login
@@ -138,4 +149,3 @@ const resetDatabase = async () => {
 
 // Uncomment the line below to run the reset process
 // resetDatabase();
-
