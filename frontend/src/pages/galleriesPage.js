@@ -70,7 +70,7 @@ const GalleriesPage = () => {
           {galleries.length > 0 ? (
             galleries.map((gallery) => (
               <Gallery 
-                key={gallery.id}  // Ensure unique keys for each gallery
+                id={gallery.id}  // Ensure unique keys for each gallery
                 imageUrl={'https://via.placeholder.com/400x225?text=No+Image+Available'} // Placeholder image for now
                 title={gallery.name || 'Untitled Gallery'}  // Using 'name' from the fetched data as title
                 description={gallery.description || 'No description available'} // Using 'description' from the fetched data

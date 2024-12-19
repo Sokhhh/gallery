@@ -1,0 +1,44 @@
+
+.image-container {
+    width: 100%;  /* Take up full width available */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    border-radius: 8px;
+    overflow: hidden;
+    background-color: transparent; /* Ensure transparent background */
+    margin-bottom: 20px;  /* Add space between images */
+  }
+  
+  /* Style for the image */
+  .image-item {
+    width: 100%;  /* Full width of its container */
+    height: auto;  /* Dynamic height based on content */
+    border-radius: 8px;
+    object-fit: cover;  /* Ensures the image covers the area without distortion */
+  }
+  
+  /* Style for the title below the image */
+  .image-title {
+    width: 100%;
+    padding: 10px;  /* Add padding around the text */
+    color: #333;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;  /* Center the title text */
+    background-color: transparent;
+    border-top: 1px solid #ddd;  /* Optional: Add a small line above the title */
+  }
+  
+  .image-title h3 {
+    margin: 0;  /* Remove default margin */
+  }
+  
+  /* Optional: Hover effect for image container */
+  .image-container:hover {
+    opacity: 0.8;  /* Add slight opacity on hover */
+    transform: scale(1.05);  /* Slightly enlarge the image container */
+    transition: all 0.3s ease-in-out;  /* Smooth transition for hover effect */
+  }
+  

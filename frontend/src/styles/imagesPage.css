@@ -1,0 +1,53 @@
+/* Container for the images page */
+.images-page-container {
+    padding: 20px;
+    text-align: center;
+  }
+  
+  /* Error message style */
+  .error-message {
+    color: red;
+    font-weight: bold;
+  }
+  
+  /* Images grid layout */
+  .images-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 20px;  /* Adjust the space between the images */
+  }
+  
+  /* Fix for the masonry layout */
+  .images-column {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  /* Style for image text, if needed */
+  .images-grid p {
+    font-size: 18px;
+    font-weight: bold;
+  }
+  
+  /* Image container style */
+  .image-container {
+    position: relative;
+    overflow: hidden;
+    border-radius: 8px;
+  }
+  
+  /* Style for each image */
+  .image-item {
+    width: 100%;
+    object-fit: cover;
+    border-radius: 8px;
+  }
+  
+  /* Optional: Add a hover effect or other custom styling */
+  .image-container:hover {
+    transform: scale(1.05);
+    transition: transform 0.3s ease-in-out;
+  }
+  

@@ -5,6 +5,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    cursor: pointer;  
     /* border: 1px solid #ddd; */
     border-radius: 8px;
     overflow: hidden;
@@ -26,7 +27,7 @@
     display: flex;
     justify-content: flex-start;  /* Align text to the left */
     align-items: center;
-    color: black;
+    color: #333;
     font-size: 18px;
     font-weight: bold;
     text-align: left;  /* Align text to the left */
@@ -36,5 +37,10 @@
   
   .gallery-text h3 {
     margin: 0;
+  }
+
+  .gallery-link {
+    text-decoration: none;  /* Remove underline from the link */
+    color: inherit;         /* Inherit color from parent elements */
   }
   
