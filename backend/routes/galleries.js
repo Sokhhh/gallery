@@ -39,6 +39,25 @@ router.get('/', async (req, res) => {
     }
 });
 
+// Get galleries for the currently authenticated user
+router.get('/me', async (req, res) => {
+    const userId = req.user.id; // The ID of the currently authenticated user
+
+    try {
+        // Fetch galleries for the currently authenticated user
+        const result = await pool.query('SELECT * FROM gallery WHERE user_id = $1', [userId]);
+
+        if (result.rows.length === 0) {
+            return res.status(404).json({ error: 'No galleries found for this user' });
+        }
+
+        res.json(result.rows);
+    } catch (error) {
+        console.error('Error fetching galleries for current user:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
+
 // Get a specific gallery (accessible to all users)
 router.get('/:galleryId', async (req, res) => {
     const { galleryId } = req.params;

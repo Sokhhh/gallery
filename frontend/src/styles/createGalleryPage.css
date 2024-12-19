@@ -1,0 +1,49 @@
+.create-gallery-page {
+    width: 400px;
+    margin: 50px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+}
+
+.create-gallery-page h2 {
+    text-align: center;
+}
+
+.create-gallery-page form {
+    display: flex;
+    flex-direction: column;
+}
+
+.create-gallery-page label {
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+.create-gallery-page input,
+.create-gallery-page textarea {
+    padding: 8px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.create-gallery-page button {
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.create-gallery-page button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+.create-gallery-page .error {
+    color: red;
+    font-size: 14px;
+}

@@ -3,7 +3,6 @@ const router = express.Router();
 const pool = require('../db');
 
 // Middleware to check if the user is the comment creator or an admin
-// Middleware to check if the user is the comment creator or an admin
 const checkCommentOwnershipOrAdmin = async (req, res, next) => {
     const { commentId } = req.params;
     const userId = req.user.id;
@@ -37,7 +36,6 @@ const checkCommentOwnershipOrAdmin = async (req, res, next) => {
     }
 };
 
-
 // Create a new comment for a specific image within a specific gallery
 router.post('/:galleryId/images/:imageId/comments', async (req, res) => {
     const { imageId } = req.params;
@@ -65,7 +63,12 @@ router.post('/:galleryId/images/:imageId/comments', async (req, res) => {
 router.get('/:galleryId/images/:imageId/comments/', async (req, res) => {
     const { imageId } = req.params;
     try {
-        const result = await pool.query('SELECT * FROM comments WHERE image_id = $1', [imageId]);
+        const result = await pool.query(`
+            SELECT comments.*, users.username 
+            FROM comments 
+            JOIN users ON comments.user_id = users.id 
+            WHERE comments.image_id = $1
+        `, [imageId]);
         res.json(result.rows);
     } catch (error) {
         console.error('Error fetching comments:', error);
@@ -77,7 +80,12 @@ router.get('/:galleryId/images/:imageId/comments/', async (req, res) => {
 router.get('/:galleryId/images/:imageId/comments/:commentId', async (req, res) => {
     const { commentId } = req.params;
     try {
-        const result = await pool.query('SELECT * FROM comments WHERE id = $1', [commentId]);
+        const result = await pool.query(`
+            SELECT comments.*, users.username 
+            FROM comments 
+            JOIN users ON comments.user_id = users.id 
+            WHERE comments.id = $1
+        `, [commentId]);
         if (result.rows.length === 0) {
             return res.status(404).json({ error: 'Comment not found' });
         }

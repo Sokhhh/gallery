@@ -4,6 +4,7 @@ const swaggerUi = require('swagger-ui-express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const pool = require('./db');
+const path = require('path');  // <-- Add this line to import the 'path' module
 
 require('dotenv').config();
 
@@ -28,6 +29,9 @@ const corsOptions = {
 
 // Use the CORS middleware
 app.use(cors(corsOptions));
+
+// Serve static files from the /uploads directory
+app.use('/uploads', express.static(path.join(__dirname, 'uploads'))); // <-- Now 'path' is available
 
 // Swagger configuration
 const swaggerOptions = {

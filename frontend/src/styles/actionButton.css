@@ -1,0 +1,77 @@
+/* Floating action button at the bottom-right corner */
+.action-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #333;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    padding: 20px;
+    font-size: 24px;
+    cursor: pointer;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+}
+
+.action-button:hover {
+    background-color: black;
+}
+
+/* Expanded buttons styling */
+.expanded-buttons {
+    position: fixed;
+    bottom: 20px;
+    right: 93px; /* Adjust this value to position the buttons to the left of the main button */
+    display: flex;
+    gap: 10px; /* Space between the buttons */
+}
+
+.expanded-buttons button {
+    background-color: #333;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    padding: 20px;
+    font-size: 16px;
+    cursor: pointer;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+}
+
+.expanded-buttons button:hover {
+    background-color: blacks;
+}
+
+/* Overlay styles */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+}
+
+.overlay-content {
+    background: white;
+    padding: 30px;
+    max-width: 500px;
+    width: 100%;
+    border-radius: 8px;
+    position: relative;
+}
+
+.overlay-backdrop {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.3);
+    z-index: -1;
+}

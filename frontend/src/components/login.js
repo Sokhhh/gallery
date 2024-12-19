@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom'; // Import useNavigate for redirect
+import { jwtDecode } from 'jwt-decode';
 import '../styles/login.css'; // Add this for external CSS styling
 
 const Login = () => {
@@ -14,19 +15,19 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
     // Basic validation
     if (!username || !password) {
       setError('Both username and password are required');
       return;
     }
-
+  
     try {
       setLoading(true);
       setError('');
       setUsernameError(false); // Reset username error
       setPasswordError(false); // Reset password error
-
+  
       const response = await fetch('http://localhost:5000/auth/login', {
         method: 'POST',
         headers: {
@@ -34,17 +35,33 @@ const Login = () => {
         },
         body: JSON.stringify({ username, password }),
       });
-
+  
       const data = await response.json();
-
+  
       // Check the response status code and handle errors accordingly
       if (response.ok) {
         // On success, save the JWT token in localStorage
-        localStorage.setItem('token', data.token); // Save the token in localStorage
-        alert('Login Successful');
-        
-        // Redirect to /galleries page after successful login
-        navigate('/galleries'); 
+        const token = data.token;
+        localStorage.setItem('token', token); // Save the token in localStorage
+  
+        try {
+          // Decode the token and extract user data
+          const decodedToken = jwtDecode(token);
+          const { id, username, role } = decodedToken; // Assuming the token contains these fields
+  
+          // Store user data in localStorage
+          localStorage.setItem('userId', id);
+          localStorage.setItem('username', username);
+          localStorage.setItem('role', role);
+  
+          alert('Login Successful');
+  
+          // Redirect to /galleries page after successful login
+          navigate('/galleries');
+        } catch (error) {
+          console.error('Invalid token:', error);
+          alert('Invalid token received. Please try again.');
+        }
       } else {
         // Handle server-side errors
         if (response.status === 401) {
@@ -52,12 +69,13 @@ const Login = () => {
         } else if (response.status === 404) {
           setUsernameError(true); // User not found
         } else {
-          setError(data.error || 'Login failed');
+          // Handle other errors
+          alert('An error occurred. Please try again.');
         }
       }
     } catch (error) {
       console.error('Error during login:', error);
-      setError('An error occurred. Please try again later.');
+      setError('An error occurred. Please try again.');
     } finally {
       setLoading(false);
     }

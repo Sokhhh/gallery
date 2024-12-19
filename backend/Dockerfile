@@ -15,3 +15,4 @@ EXPOSE 5000
 
 # Command to start the application
 CMD ["node", "index.js"]
+

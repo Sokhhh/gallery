@@ -34,11 +34,35 @@ const GalleriesPage = () => {
         if (response.ok) {
           const data = await response.json();
           
-          // Log the raw response data before setting it
-          console.log('Fetched Data:', data);
-          
-          // Update the galleries state
-          setGalleries(data);  
+          // Fetch images for each gallery and set the gallery data with images
+          const galleriesWithImages = await Promise.all(data.map(async (gallery) => {
+            // Fetch the image for the gallery using galleryId
+            let imageUrl = 'https://via.placeholder.com/400x225?text=No+Image+Available'; // Default placeholder image
+
+            try {
+              const imageResponse = await fetch(`http://localhost:5000/api/galleries/${gallery.id}/images`, {
+                method: 'GET',
+                headers: {
+                  'Content-Type': 'application/json',
+                  'Authorization': `Bearer ${token}`  // Send token in the Authorization header
+                }
+              });
+
+              if (imageResponse.ok) {
+                const imageData = await imageResponse.json();
+                imageUrl = "http://localhost:5000" + imageData[0].url || imageUrl; // If image URL exists, use it
+              }
+            } catch (err) {
+              console.error('Error fetching image for gallery:', gallery.id, err);
+            }
+
+            return {
+              ...gallery,  // Retain other gallery properties
+              imageUrl,     // Add the fetched or default image URL
+            };
+          }));
+
+          setGalleries(galleriesWithImages);  // Update the galleries state with images
         } else {
           setError('Failed to fetch galleries');
         }
@@ -70,8 +94,9 @@ const GalleriesPage = () => {
           {galleries.length > 0 ? (
             galleries.map((gallery) => (
               <Gallery 
-                id={gallery.id}  // Ensure unique keys for each gallery
-                imageUrl={'https://via.placeholder.com/400x225?text=No+Image+Available'} // Placeholder image for now
+                key={gallery.id}  // Ensure unique keys for each gallery
+                id={gallery.id}
+                imageUrl={gallery.imageUrl} // Use the imageUrl from the gallery data (fetched or placeholder)
                 title={gallery.name || 'Untitled Gallery'}  // Using 'name' from the fetched data as title
                 description={gallery.description || 'No description available'} // Using 'description' from the fetched data
               />

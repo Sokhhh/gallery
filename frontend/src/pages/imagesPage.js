@@ -56,20 +56,20 @@ const ImagesPage = () => {
         {error && <p className="error-message">{error}</p>}
 
         <Masonry
-          breakpointCols={4} // Set breakpoints for columns
+          breakpointCols={6} // Set breakpoints for columns
           className="images-grid" // Add a custom class for the grid
           columnClassName="images-column" // Add a custom class for the columns
-          columnGap={10} // Adjust the gap between columns
-          rowGap={20}    // Adjust the gap between rows
         >
           {images.length > 0 ? (
             images.map((image) => (
               <Image
-                key={image.id}
-                src={image.url}
+                imageId={image.id}
+                galleryId={galleryId}
+                src={"http://localhost:5000"+ image.url}
                 alt={image.title || 'Untitled Image'}
                 title={image.title}
-                randomHeight={true}
+                height={image.height}
+                // randomHeight={true}
               />
             ))
           ) : (

@@ -1,0 +1,49 @@
+.upload-image-page {
+    width: 400px;
+    margin: 50px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+}
+
+.upload-image-page h2 {
+    text-align: center;
+}
+
+.upload-image-page form {
+    display: flex;
+    flex-direction: column;
+}
+
+.upload-image-page label {
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+.upload-image-page input,
+.upload-image-page select {
+    padding: 8px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.upload-image-page button {
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.upload-image-page button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+.upload-image-page .error {
+    color: red;
+    font-size: 14px;
+}
