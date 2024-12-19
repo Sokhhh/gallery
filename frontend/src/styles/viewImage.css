@@ -19,7 +19,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    overflow: hidden; /* Prevent overflow */
+    overflow: hidden;
 }
   
 .view-image {
@@ -29,7 +29,7 @@
     object-fit: contain; /* Scale image to fit container while maintaining aspect ratio */
     width: auto;
     height: auto;
-    max-width: 90vw; /* Limit the maximum width */
+    max-width: 50vw; /* Limit the maximum width */
     max-height: 90vh; /* Limit the maximum height */
 }
   
@@ -54,26 +54,38 @@ h3 {
     max-height: calc(100% - 60px); /* Adjust for heading and input section */
     padding-right: 10px;
 }
-  
+
+/* Comment item styles */
 .comment-item {
     background-color: #fff;
     margin-bottom: 10px;
     padding: 10px;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: relative; /* To allow absolute positioning of buttons */
 }
-  
+
+/* Positioning for the Edit and Delete buttons */
+.comment-actions {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    display: flex;
+    gap: 10px;
+    z-index: 1; /* Ensure the buttons are on top */
+}
+
 .comment-author {
     font-weight: bold;
     color: #555;
     margin-bottom: 5px;
 }
-  
+
 .comment-text {
     color: #333;
     font-size: 14px;
 }
-  
+
 /* Comment input section */
 .comment-input-container {
     display: flex;
@@ -81,7 +93,7 @@ h3 {
     gap: 10px;
     margin-top: 10px;
 }
-  
+
 .comment-input {
     flex: 1;
     padding: 10px;
@@ -89,7 +101,7 @@ h3 {
     border-radius: 8px;
     font-size: 14px;
 }
-  
+
 .post-comment-button {
     padding: 10px 15px;
     background-color: #007bff;
@@ -99,24 +111,29 @@ h3 {
     cursor: pointer;
     font-size: 14px;
 }
-  
+
 .post-comment-button:hover {
     background-color: #0056b3;
 }
-  
+
 /* Adjust for responsiveness */
 @media (max-width: 768px) {
     .view-image-container {
         flex-direction: column;
         height: auto; /* Allow height to adjust for content */
     }
-  
+
     .image-section, .comments-section {
         flex: 1;
         max-width: 100%;
     }
-  
+
     .comment-list {
         max-height: unset; /* Allow full scrolling */
+    }
+
+    .comment-actions {
+        top: 5px;
+        right: 5px;
     }
 }

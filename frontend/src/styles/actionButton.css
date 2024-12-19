@@ -1,9 +1,9 @@
-/* Floating action button at the bottom-right corner */
+/* Floating action button at the bottom-left corner */
 .action-button {
     position: fixed;
     bottom: 20px;
-    right: 20px;
-    background-color: #333;
+    left: 20px; /* Move the action button to the left */
+    background-color: rgba(0, 0, 0, 0.5);
     color: white;
     border: none;
     border-radius: 50%;
@@ -18,17 +18,17 @@
     background-color: black;
 }
 
-/* Expanded buttons styling */
+/* Expanded buttons styling (to the right of the main button) */
 .expanded-buttons {
     position: fixed;
     bottom: 20px;
-    right: 93px; /* Adjust this value to position the buttons to the left of the main button */
+    left: 93px; /* Adjust this value to position the buttons to the right of the main button */
     display: flex;
     gap: 10px; /* Space between the buttons */
 }
 
 .expanded-buttons button {
-    background-color: #333;
+    background-color: rgba(0, 0, 0, 0.5);
     color: white;
     border: none;
     border-radius: 50%;
@@ -40,7 +40,7 @@
 }
 
 .expanded-buttons button:hover {
-    background-color: blacks;
+    background-color: black;
 }
 
 /* Overlay styles */

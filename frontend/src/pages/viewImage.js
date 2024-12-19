@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import TemplatePage from './templatePage'; // Use TemplatePage for consistent layout
+import { Comment, CommentInput } from '../components/comment'; // Import the Comment components
 import '../styles/viewImage.css';
 
-const ViewImage = ({ galleryId }) => {
-    const { imageId } = useParams();
+const ViewImage = ({ galleryId: propGalleryId }) => {
+    const { imageId, galleryId: paramGalleryId } = useParams(); // Retrieve imageId and galleryId from URL params
+    const galleryId = propGalleryId || paramGalleryId; // Fallback to URL galleryId if prop is not passed
     const [image, setImage] = useState(null);
     const [comments, setComments] = useState([]);
     const [newComment, setNewComment] = useState('');
@@ -139,27 +141,35 @@ const ViewImage = ({ galleryId }) => {
                             <div className="comment-list">
                                 {comments.length > 0 ? (
                                     comments.map((comment) => (
-                                        <div key={comment.id} className="comment-item">
-                                            <p className="comment-author">{comment.username || 'Anonymous'}</p>
-                                            <p className="comment-text">{comment.content}</p>
-                                        </div>
+                                        <Comment 
+                                            key={comment.id} 
+                                            comment={comment} 
+                                            galleryId={galleryId} 
+                                            imageId={imageId} 
+                                            handleEditComment={(updatedComment) => {
+                                                setComments((prevComments) =>
+                                                    prevComments.map((c) =>
+                                                        c.id === updatedComment.id ? updatedComment : c
+                                                    )
+                                                );
+                                            }}
+                                            handleDeleteComment={(deletedCommentId) => {
+                                                setComments((prevComments) =>
+                                                    prevComments.filter((c) => c.id !== deletedCommentId)
+                                                );
+                                            }}
+                                        />
                                     ))
                                 ) : (
                                     <p>No comments yet. Be the first to comment!</p>
                                 )}
                             </div>
-                            <div className="comment-input-container">
-                                <input
-                                    type="text"
-                                    placeholder="Write a comment..."
-                                    value={newComment}
-                                    onChange={(e) => setNewComment(e.target.value)}
-                                    className="comment-input"
-                                />
-                                <button onClick={handlePostComment} className="post-comment-button">
-                                    Post
-                                </button>
-                            </div>
+
+                            <CommentInput 
+                                newComment={newComment} 
+                                setNewComment={setNewComment} 
+                                handlePostComment={handlePostComment} 
+                            />
                         </div>
                     </>
                 ) : (
