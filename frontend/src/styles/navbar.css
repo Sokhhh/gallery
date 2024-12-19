@@ -1,43 +1,50 @@
 /* Navbar container - using flex to align the items in a row */
 .navbar-container {
-    display: flex;
-    align-items: flex-end;  /* Aligns all items to the bottom of the text */
-    justify-content: flex-start;  /* Aligns everything to the left side */
-    padding: 10px;
-    background-color: #f0f0f0; /* Light background for contrast */
-  }
-  
-  /* Style for each black square - visually empty, just used as a spacer */
-  .black-square {
-    background-color: #333;
-    height: 35px;  /* Set height equal to the font size of the text */
-    width: 35px;   /* Adjust width as needed */
-    margin: 5px 10px; /* Spacing between the black squares and text */
-  }
-  
-  /* Style for text inside the navbar */
-  .navbar-text {
-    color: #333; /* Darker text color */
-    font-weight: bold;
-    font-size: 50px; /* Adjust font size as needed */
-    white-space: nowrap;
-    line-height: 50px; /* Ensure the text's vertical alignment is centered within its box */
-  }
-  
-  /* Style for the Home button */
-  .home-button {
-    color: white;
-    background-color: #333;
-    border: 2px solid white;
-    padding: 5px 20px;
-    font-size: 16px;
-    cursor: pointer;
-    margin: 4px 10px;
-  }
-  
-  .home-button:hover {
-    background-color: white;
-    color: black;
-    transition: 0.3s;
-  }
-  
+  display: flex;
+  align-items: center;  /* Aligns all items vertically centered */
+  justify-content: space-between;  /* Spaces out items evenly */
+  padding: 10px;
+  background-color: #f0f0f0; /* Light background for contrast */
+}
+
+/* Style for each black square - visually empty, just used as a spacer */
+.black-square {
+  background-color: #333;
+  height: 35px;  /* Set height equal to the font size of the text */
+  width: 35px;   /* Adjust width as needed */
+  margin: 5px 10px; /* Spacing between the black squares and text */
+}
+
+/* Style for text inside the navbar */
+.navbar-text {
+  color: #333; /* Darker text color */
+  font-weight: bold;
+  font-size: 50px; /* Adjust font size as needed */
+  white-space: nowrap;
+  line-height: 50px; /* Ensure the text's vertical alignment is centered within its box */
+}
+
+/* Style for the Home and Logout buttons */
+.home-button, .logout-button {
+  color: white;
+  background-color: #333;
+  border: 2px solid white;
+  padding: 5px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  margin: 4px 10px;
+  text-align: center;
+  border-radius: 5px; /* Slight rounded corners */
+}
+
+/* Hover effect for the buttons */
+.home-button:hover, .logout-button:hover {
+  background-color: white;
+  color: black;
+  transition: 0.3s;
+}
+
+/* Align logout button to the right side */
+.navbar-container button:last-child {
+  margin-left: auto; /* Push the logout button to the right */
+}
