@@ -33,6 +33,15 @@
  *                   type: string
  *                 description:
  *                   type: string
+ *       422:
+ *         description: Validation error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
  *       500:
  *         description: Internal server error
  */
@@ -59,6 +68,36 @@
  *                     type: string
  *                   description:
  *                     type: string
+ *       500:
+ *         description: Internal server error
+ */
+
+/**
+ * @swagger
+ * /api/galleries/me:
+ *   get:
+ *     summary: Get galleries for the currently authenticated user
+ *     tags: [Galleries]
+ *     responses:
+ *       200:
+ *         description: A list of galleries for the authenticated user
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   id:
+ *                     type: integer
+ *                   name:
+ *                     type: string
+ *                   description:
+ *                     type: string
+ *       404:
+ *         description: No galleries found for the user
+ *       500:
+ *         description: Internal server error
  */
 
 /**
@@ -134,6 +173,8 @@
  *                   type: string
  *                 description:
  *                   type: string
+ *       403:
+ *         description: Permission denied
  *       404:
  *         description: Gallery not found
  *       500:
@@ -156,6 +197,8 @@
  *     responses:
  *       200:
  *         description: Gallery deleted successfully
+ *       403:
+ *         description: Permission denied
  *       404:
  *         description: Gallery not found
  *       500:

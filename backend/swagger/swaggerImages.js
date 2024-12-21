@@ -16,13 +16,14 @@
  *     requestBody:
  *       required: true
  *       content:
- *         application/json:
+ *         multipart/form-data:
  *           schema:
  *             type: object
  *             properties:
- *               url:
+ *               image:
  *                 type: string
- *                 example: "http://example.com/image.jpg"
+ *                 format: binary
+ *                 description: The image file to upload
  *               title:
  *                 type: string
  *                 example: "Beautiful Sunset"
@@ -40,6 +41,8 @@
  *                   type: string
  *                 title:
  *                   type: string
+ *       422:
+ *         description: Validation error
  *       500:
  *         description: Internal server error
  */
@@ -144,7 +147,7 @@
  *             properties:
  *               url:
  *                 type: string
- *                 example: "http://example.com/image_updated.jpg"
+ *                 example: "/uploads/image_updated.jpg"
  *               title:
  *                 type: string
  *                 example: "Updated Title"

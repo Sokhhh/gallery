@@ -1,5 +1,3 @@
-// swaggerComments.js
-
 /**
  * @swagger
  * /api/galleries/{galleryId}/images/{imageId}/comments:
@@ -29,9 +27,6 @@
  *               content:
  *                 type: string
  *                 example: "This is a great image!"
- *               author:
- *                 type: string
- *                 example: "John Doe"
  *     responses:
  *       201:
  *         description: Comment created successfully
@@ -42,10 +37,14 @@
  *               properties:
  *                 id:
  *                   type: integer
+ *                 image_id:
+ *                   type: integer
+ *                 user_id:
+ *                   type: integer
  *                 content:
  *                   type: string
- *                 author:
- *                   type: string
+ *       422:
+ *         description: Invalid content
  *       500:
  *         description: Internal server error
  */
@@ -81,9 +80,13 @@
  *                 properties:
  *                   id:
  *                     type: integer
- *                   content:
+ *                   image_id:
+ *                     type: integer
+ *                   user_id:
+ *                     type: integer
+ *                   username:
  *                     type: string
- *                   author:
+ *                   content:
  *                     type: string
  *       500:
  *         description: Internal server error
@@ -124,9 +127,13 @@
  *               properties:
  *                 id:
  *                   type: integer
- *                 content:
+ *                 image_id:
+ *                   type: integer
+ *                 user_id:
+ *                   type: integer
+ *                 username:
  *                   type: string
- *                 author:
+ *                 content:
  *                   type: string
  *       404:
  *         description: Comment not found
@@ -169,9 +176,6 @@
  *               content:
  *                 type: string
  *                 example: "Updated comment content."
- *               author:
- *                 type: string
- *                 example: "Jane Doe"
  *     responses:
  *       200:
  *         description: Comment updated successfully
@@ -182,10 +186,14 @@
  *               properties:
  *                 id:
  *                   type: integer
+ *                 image_id:
+ *                   type: integer
+ *                 user_id:
+ *                   type: integer
  *                 content:
  *                   type: string
- *                 author:
- *                   type: string
+ *       403:
+ *         description: Permission denied
  *       404:
  *         description: Comment not found
  *       500:
@@ -220,6 +228,8 @@
  *     responses:
  *       200:
  *         description: Comment deleted successfully
+ *       403:
+ *         description: Permission denied
  *       404:
  *         description: Comment not found
  *       500:
